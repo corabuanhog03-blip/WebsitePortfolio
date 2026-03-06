@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Fun Portfolio</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: Arial,sans-serif; display:flex; min-height:100vh; background:#ffeef2; color:#333; }
+
+  /* Sidebar nav */
+  nav {
+    position: fixed; left:0; top:0; width:200px; height:100%;
+    background:#ffccd9; display:flex; flex-direction:column; align-items:center;
+    padding-top:50px; gap:20px; box-shadow:2px 0 10px rgba(0,0,0,0.1);
+  }
+  nav a { font-weight:bold; padding:10px 15px; border-radius:10px; width:80%; text-align:center; transition:0.3s; color:#333; text-decoration:none; }
+  nav a:hover, nav a.active { background:#ff4d88; color:#fff; cursor:pointer; }
+
+  /* Content wrapper */
+  .content-wrapper { margin-left:200px; padding:50px; flex:1; }
+
+  /* Sections */
+  section { display:flex; gap:30px; align-items:center; background:#fff0f5; border-radius:20px;
+            padding:30px; box-shadow:0 8px 20px rgba(0,0,0,0.08); opacity:0; transition:opacity 0.5s ease-in-out; }
+  section.active { opacity:1; }
+  section img { width:200px; height:200px; object-fit:cover; border-radius:10px; flex-shrink:0; }
+  section .section-content { flex:1; }
+  section h2 { margin-bottom:15px; color:#ff4d88; }
+  section p, section li { line-height:1.6; }
+
+  /* Contact form */
+  form { display:flex; flex-direction:column; gap:15px; margin-top:15px; }
+  input, textarea { padding:10px; border-radius:8px; border:1px solid #ccc; width:100%; }
+  button.submit-btn { padding:12px; border:none; border-radius:10px; background:#ff4d88; color:#fff; cursor:pointer; transition:0.3s; }
+  button.submit-btn:hover { background:#ff1a5c; }
+
+  /* Landing */
+  #landing { display:flex; flex-direction:column; align-items:center; justify-content:center; height:80vh; text-align:center; }
+  #landing h1 { font-size:3rem; color:#ff4d88; margin-bottom:20px; }
+  #landing p { font-size:1.2rem; margin-bottom:30px; }
+  #landing button { padding:12px 25px; font-size:1rem; border:none; border-radius:10px; background:#ff4d88; color:#fff; cursor:pointer; transition:0.3s; }
+  #landing button:hover { background:#ff1a5c; }
+
+  @media(max-width:768px){
+    nav { width:100%; height:auto; flex-direction:row; padding:10px 0; gap:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+    .content-wrapper { margin-left:0; padding:20px; }
+    section { flex-direction:column; text-align:center; }
+    section img { margin-bottom:20px; }
+    .contact-columns { flex-direction:column; }
+  }
+  .contact-columns { display:flex; gap:30px; }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav>
+  <a onclick="showSection('landing')" id="nav-landing">Home</a>
+  <a onclick="showSection('about')" id="nav-about">About Me</a>
+  <a onclick="showSection('funfacts')" id="nav-funfacts">Fun Facts</a>
+  <a onclick="showSection('bucketlist')" id="nav-bucketlist">Bucket List</a>
+  <a onclick="showSection('contact')" id="nav-contact">Contact</a>
+</nav>
+
+<div class="content-wrapper">
+  <!-- Landing -->
+  <div id="landing" class="active">
+    <h1>Welcome to My Portfolio</h1>
+    <p>Discover a bit about me, my quirks, and what I dream of!</p>
+    <button onclick="showSection('about')">Enter Portfolio</button>
+  </div>
+
+  <!-- Container for dynamic sections -->
+  <div id="section-container"></div>
+</div>
+
+<script>
+const sectionHTML = {
+  about: `<section id="about" class="active">
+            <img src="myphoto.jpg" alt="Author Profile Photo" loading="lazy">
+            <div class="section-content">
+              <h2>About Me</h2>
+              <p>Hello! <strong>I'm Cora Buanhog</strong>, a <strong>Computer Science</strong> student who enjoys coding, design, and storytelling. I like turning ideas into fun and interactive projects by combining creativity with technology.</p>
+              <p>In my free time, I enjoy <strong>photography</strong> and <strong>painting</strong>, which help me express my creativity in different ways. I also like trying <strong>new hobbies</strong>, <strong>traveling</strong> and <strong>exploring new interests</strong> because they inspire me and give me fresh ideas for my projects.</p>
+          </section>`,
+  funfacts: `<section id="funfacts" class="active">
+         <img src="funfact.jpg" alt="Contact Photo" loading="lazy">
+            <div class="section-content">
+              <h2>Fun Facts About Me</h2>
+              <ul>
+                <li>My coffee addiction fuels my creativity</li>
+                <li>I'm a Working Student, and I help providing my family's financial needs</li>
+                <li>I'm a shy person, but I smiles a lot</li>
+                <li>I love taking selfies and listening to music</li>
+                <li>I'm a beach lover but afraid of the sea</li>
+                <li>I love Barbie and i love Pink color</li>
+              </ul>
+            </div>
+          </section>`,
+  bucketlist: `<section id="bucketlist" class="active">
+          <img src="bucketlist.jpg" alt="Author Profile Photo" loading="lazy">
+            <div class="section-content">
+              <h2>My Bucket List</h2>
+              <ul>
+                <li>Visit DisneyLand in Hongkong</li>
+                <li>Learn Korean and visit South Korea</li>
+                <li>Collect More Branded Shoes</li>
+                <li>Approved my Visa and Travel To Switzerland</li>
+                <li>Finish my Studies</li>
+              </ul>
+            </div>
+          </section>`,
+  contact: `<section id="contact" class="active">
+            <div class="contact-columns">
+              <div class="section-content">
+                <h2>Contact Me</h2>
+                <p>Reach out to me via email or social media, or send me a message directly:</p>
+                <ul>
+                  <li>Email: <strong><a href="mailto:corabuanhog03@gmail.com">corabuanhog03@gmail.com</a></strong></li>
+                  <li>Facebook: <strong><a href="https://www.facebook.com/share/1FqPSdoFWt/?mibextid=wwXIfr/in/corabuanhog" target="_blank">https://www.facebook.com/share/1FqPSdoFWt/?mibextid=wwXIfr/in/corabuanhog</a></strong></li>
+                  <li>Instagram: <strong><a href="caobraarro" target="_blank">caobraarro</a></strong></li>
+                </ul>
+                <form onsubmit="alert('Message sent!'); return false;">
+                  <input type="text" name="name" placeholder="Your Name" required>
+                  <input type="email" name="email" placeholder="Your Email" required>
+                  <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                  <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+              </div>
+            </div>
+          </section>`
+};
+
+function showSection(id){
+  const container = document.getElementById('section-container');
+  const landing = document.getElementById('landing');
+
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  const navLink = document.getElementById('nav-' + id);
+  if(navLink) navLink.classList.add('active');
+
+  if(id === 'landing'){
+    landing.style.display = 'flex';
+    container.innerHTML = '';
+    return;
+  }
+
+  landing.style.display = 'none';
+  container.innerHTML = sectionHTML[id];
+  setTimeout(() => container.firstElementChild.classList.add('active'), 10);
+}
+</script>
+
+</body>
+</html>
